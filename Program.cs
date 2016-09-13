@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Alex Pratt
  * Section 2 - Group 12
  * 
@@ -35,6 +35,124 @@ namespace CSConsoleAssignment
     {
         static void Main(string[] args)
         {
+            //local variables:
+            int iNumGames = 0, iPoints = 0, iPosition = 1;
+            string sName = "";
+            bool bRepeat = true;
+            List<SoccerTeam> olSoccerTeams = new List<SoccerTeam>();
+            
+
+            //get the number of games:
+            Console.WriteLine("Welcome to the Olympic Soccer Tournament!");
+            
+            //prevent bad input:
+            bRepeat = true;
+            while (bRepeat)
+            {
+                bRepeat = false;
+                try
+                {
+                    Console.WriteLine();
+                    Console.Write("Please enter the number of teams that will be playing: ");
+                    iNumGames = Convert.ToInt32(Console.ReadLine());
+                }
+                catch// (InvalidCastException eCast)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Please enter a valid integer, with no spaces or decimal points.");
+                    bRepeat = true;
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+
+
+            //fill the olSoccerTeams array with data from user:
+            for (int i = 0; i < iNumGames; i++)
+            {
+                //prevent bad input - valid team name
+                bRepeat = true;
+                while (bRepeat)
+                {
+                    Console.Write("Please enter Team " + (i + 1) + "'s name: ");
+                    sName = Console.ReadLine();
+                    Console.WriteLine();
+                    if (string.IsNullOrWhiteSpace(sName)) // empty or blank string
+                    {
+                        Console.WriteLine("Please enter a valid team name.");
+                        Console.WriteLine();
+                        bRepeat = true;
+                    }
+                    else
+                    {
+                        bRepeat = false;
+                    }
+                }
+                
+
+                sName = UppercaseFirst(sName);
+
+                //prevent bad input - valid integer
+                bRepeat = true;
+                while (bRepeat)
+                {
+                    bRepeat = false;
+                    try
+                    {
+                        Console.WriteLine();
+                        Console.Write("Please enter " + sName + "'s points: ");
+                        iPoints = Convert.ToInt32(Console.ReadLine());
+                    }
+                    catch// (InvalidCastException eCast)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Please enter a valid integer, with no spaces or decimal points.");
+                        bRepeat = true;
+                    }
+                }
+
+                
+                Console.WriteLine();
+                Console.WriteLine();
+
+                SoccerTeam oSoccerTeam = new SoccerTeam(sName, iPoints);
+                olSoccerTeams.Add(oSoccerTeam);
+            }
+
+
+
+            //display the results, sorted ???
+            Console.WriteLine("Here is the sorted list:");
+            List<SoccerTeam> sortedTeams = olSoccerTeams.OrderByDescending(SoccerTeam => SoccerTeam.points).ToList(); // sort the list by points
+
+            Console.WriteLine(Convert.ToString("Position").PadRight(20, ' ') + Convert.ToString("Name").PadRight(25, ' ') + Convert.ToString("Points").PadRight(25, ' '));
+            Console.WriteLine(Convert.ToString("--------").PadRight(20, ' ') + Convert.ToString("----").PadRight(25, ' ') + Convert.ToString("------").PadRight(25, ' '));
+            
+            foreach(SoccerTeam sc in sortedTeams)
+            {
+                Console.Write(Convert.ToString(iPosition).PadRight(20, ' '));
+                Console.Write(Convert.ToString(sc.name).PadRight(25, ' '));
+                Console.Write(Convert.ToString(sc.points).PadRight(25, ' '));
+                Console.WriteLine();
+
+                iPosition++;
+            }
+
+            Console.Read();
+
+        }
+
+
+        //method to set the first character of the string as an uppercase character:
+        static string UppercaseFirst(string s)
+        {
+            // Check for empty string.
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            // Return char and concat substring.
+            return char.ToUpper(s[0]) + s.Substring(1);
         }
     }
 }
