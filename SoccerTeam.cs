@@ -30,5 +30,14 @@ namespace CSConsoleAssignment
             this.points = points;
         }
 
+        //EXTRA
+        //receives name and points and games
+        public SoccerTeam(string name, int points, List<Game> games)
+        {
+            this.name = name;
+            this.points = points;
+            this.games = games;
+        }
+
     }
 }

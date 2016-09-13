@@ -36,7 +36,7 @@ namespace CSConsoleAssignment
         static void Main(string[] args)
         {
             //local variables:
-            int iNumGames = 0, iPoints = 0, iPosition = 1;
+            int iNumGames = 0, iPoints = 0, iPosition = 1, iLongestName = 0;
             string sName = "";
             bool bRepeat = true;
             List<SoccerTeam> olSoccerTeams = new List<SoccerTeam>();
@@ -70,6 +70,7 @@ namespace CSConsoleAssignment
             //fill the olSoccerTeams array with data from user:
             for (int i = 0; i < iNumGames; i++)
             {
+                //EXTRA
                 //prevent bad input - valid team name
                 bRepeat = true;
                 while (bRepeat)
@@ -88,10 +89,11 @@ namespace CSConsoleAssignment
                         bRepeat = false;
                     }
                 }
-                
+
 
                 sName = UppercaseFirst(sName);
 
+                //EXTRA
                 //prevent bad input - valid integer
                 bRepeat = true;
                 while (bRepeat)
@@ -111,35 +113,40 @@ namespace CSConsoleAssignment
                     }
                 }
 
-                
+
                 Console.WriteLine();
                 Console.WriteLine();
 
-                SoccerTeam oSoccerTeam = new SoccerTeam(sName, iPoints);
+                //EXTRA
+                //get the length of the longest team name, then when printing, set the padding based on that name length (prevents overflow or weird naming)
+                if (iLongestName < sName.Length)
+                {
+                    iLongestName = sName.Length;
+                }
+
+
+                SoccerTeam oSoccerTeam = new SoccerTeam(sName, iPoints, null);
                 olSoccerTeams.Add(oSoccerTeam);
             }
 
 
-
-            //display the results, sorted ???
+            //display the results, sorted 
             Console.WriteLine("Here is the sorted list:");
-            List<SoccerTeam> sortedTeams = olSoccerTeams.OrderByDescending(SoccerTeam => SoccerTeam.points).ToList(); // sort the list by points
+            olSoccerTeams = olSoccerTeams.OrderByDescending(SoccerTeam => SoccerTeam.points).ToList(); // sort the list by points
 
-            Console.WriteLine(Convert.ToString("Position").PadRight(20, ' ') + Convert.ToString("Name").PadRight(25, ' ') + Convert.ToString("Points").PadRight(25, ' '));
-            Console.WriteLine(Convert.ToString("--------").PadRight(20, ' ') + Convert.ToString("----").PadRight(25, ' ') + Convert.ToString("------").PadRight(25, ' '));
-            
-            foreach(SoccerTeam sc in sortedTeams)
+            Console.WriteLine(Convert.ToString("Position").PadRight(15, ' ') + Convert.ToString("Name").PadRight((iLongestName + 10), ' ') + Convert.ToString("Points").PadRight(25, ' '));
+            Console.WriteLine(Convert.ToString("--------").PadRight(15, ' ') + Convert.ToString("----").PadRight((iLongestName + 10), ' ') + Convert.ToString("------").PadRight(25, ' '));
+
+            foreach (SoccerTeam sc in olSoccerTeams)
             {
-                Console.Write(Convert.ToString(iPosition).PadRight(20, ' '));
-                Console.Write(Convert.ToString(sc.name).PadRight(25, ' '));
-                Console.Write(Convert.ToString(sc.points).PadRight(25, ' '));
+                Console.Write(Convert.ToString(iPosition).PadRight(15, ' ') + Convert.ToString(sc.name).PadRight((iLongestName + 10), ' ') + Convert.ToString(sc.points).PadRight(25, ' '));
                 Console.WriteLine();
 
                 iPosition++;
             }
 
-            Console.Read();
 
+            Console.Read(); // END
         }
 
 
