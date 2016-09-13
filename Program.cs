@@ -136,7 +136,7 @@ namespace CSConsoleAssignment
 
             Console.WriteLine(Convert.ToString("Position").PadRight(15, ' ') + Convert.ToString("Name").PadRight((iLongestName + 10), ' ') + Convert.ToString("Points").PadRight(25, ' '));
             Console.WriteLine(Convert.ToString("--------").PadRight(15, ' ') + Convert.ToString("----").PadRight((iLongestName + 10), ' ') + Convert.ToString("------").PadRight(25, ' '));
-
+            Console.WriteLine();
             foreach (SoccerTeam sc in olSoccerTeams)
             {
                 Console.Write(Convert.ToString(iPosition).PadRight(15, ' ') + Convert.ToString(sc.name).PadRight((iLongestName + 10), ' ') + Convert.ToString(sc.points).PadRight(25, ' '));
